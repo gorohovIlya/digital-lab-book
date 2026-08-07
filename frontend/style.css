@@ -47,6 +47,9 @@ header {
 }
 
 input {
-    width: 98%
+    width: 20%
 }
 
+textarea {
+    width: 33%
+}

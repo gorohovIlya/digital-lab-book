@@ -4,6 +4,8 @@ header {
     flex-direction: column;
     padding: 0.5%;
     border: 2px solid blue;
+    margin-bottom: 1%;
+    margin-top: 1%;
 }
 
 .dev {
@@ -57,5 +59,22 @@ textarea {
 
 .substances-table {
     width: 98.5%;
-    padding: 0.5%
+    padding: 0.5%;
+    margin-bottom: 1%;
+}
+
+.substances-table-header {
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.methodic {
+  padding: 0.5%;
+  width: 98.5%;
+  display: grid;
+  margin-bottom: 1%;
+}
+
+.methodic-substances-table {
+  display: grid;
 }

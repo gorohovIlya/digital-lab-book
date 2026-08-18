@@ -82,9 +82,20 @@ textarea {
 .products-table {
   display: grid;
   padding: 0.5%;
+  margin-bottom: 1%;
 }
 
 .products-table-header {
   display: grid;
   grid-auto-flow: column;
+}
+
+.control-panel {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 20%;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
 }

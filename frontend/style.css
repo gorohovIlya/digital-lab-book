@@ -78,3 +78,13 @@ textarea {
 .methodic-substances-table {
   display: grid;
 }
+
+.products-table {
+  display: grid;
+  padding: 0.5%;
+}
+
+.products-table-header {
+  display: grid;
+  grid-auto-flow: column;
+}

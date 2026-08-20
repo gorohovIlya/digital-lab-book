@@ -10,6 +10,18 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
+  // ✨ ВОТ ЭТА СТРОЧКА РЕШАЕТ ПРОБЛЕМУ 404 ✨
+  server: {
+    historyApiFallback: true,
+
+    // (Опционально) Прокси для вашего FastAPI бэкенда, если он у вас отдельно
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:8000',
+    //     changeOrigin: true
+    //   }
+    // }
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

@@ -87,14 +87,14 @@
               v-model="formData.passwordRepeat"
               name="password_repeat"
               id="password_repeat"
-              :class="{ 'input-error': !passwordsMatch && formData.confirmPassword }"
+              :class="{ 'input-error': !passwordsMatch && formData.passwordRepeat }"
               required
             >
-            <span v-if="!passwordsMatch && formData.confirmPassword" class="error-text">
+            <span v-if="!passwordsMatch && formData.passwordRepeat" class="error-text">
                 Пароли не совпадают
             </span>
           </p>
-          <button type="submit">Зарегистрироваться</button>
+          <button type="submit" :disabled="!isFormValid">Зарегистрироваться</button>
         </form>
       </div>
     </main>
@@ -102,6 +102,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -117,5 +118,29 @@ export default {
       }
     }
   },
+  computed: {
+    passwordsMatch() {
+      return this.formData.password === this.formData.passwordRepeat;
+    },
+    isFormValid() {
+      return this.formData.password.length > 0 && this.passwordsMatch;
+    }
+  },
+  methods: {
+    async handleSubmit() {
+      console.log('Отправка данных на сервер...');
+      try {
+        const response = await axios.post('http://localhost:8000/api/submit', this.formData);
+        console.log('Success: ', response.data);
+      } catch (error) {
+        console.error('Error: ', error)
+      }
+    }
+  }
 }
 </script>
+
+<style>
+.input-error { border: 1px solid red; }
+.error-text { color: red; font-size: 12px; display: block; }
+</style>

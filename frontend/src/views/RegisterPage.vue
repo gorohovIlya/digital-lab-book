@@ -87,8 +87,12 @@
               v-model="formData.passwordRepeat"
               name="password_repeat"
               id="password_repeat"
+              :class="{ 'input-error': !passwordsMatch && formData.confirmPassword }"
               required
             >
+            <span v-if="!passwordsMatch && formData.confirmPassword" class="error-text">
+                Пароли не совпадают
+            </span>
           </p>
           <button type="submit">Зарегистрироваться</button>
         </form>

@@ -39,19 +39,20 @@
           <!--Поле выбора подразделения (пока хардкод)-->
           <p>
             <label for="department">Подразделение:</label>
-              <select name="department" id="department">
-                <option value="Подразделение_1">Подразделение 1</option>
-                <option value="Подразделение_2">Подразделение 2</option>
-                <option value="Подразделение_3">Подразделение 3</option>
+
+              <select name="department" id="department" v-model="formData.department">
+                <option value="1">Подразделение 1</option>
+                <option value="2">Подразделение 2</option>
+                <option value="3">Подразделение 3</option>
               </select>
           </p>
           <!--Поле выбора должности (пока хардкод)-->
           <p>
             <label for="post">Должность</label>
-              <select name="post" id="post">
-                <option value="Должность_1">Должность 1</option>
-                <option value="Должность_2">Должность 2</option>
-                <option value="Должность_3">Должность 3</option>
+              <select name="post" id="post" v-model="formData.post">
+                <option value="1">Должность 1</option>
+                <option value="2">Должность 2</option>
+                <option value="3">Должность 3</option>
               </select>
           </p>
           <p>

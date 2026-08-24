@@ -40,14 +40,22 @@
             >
           </p>
           <!--Поле выбора подразделения (пока хардкод)-->
-          <p>
-            <label for="department">Подразделение:</label>
-              <select name="department" id="department" v-model="formData.department">
-                <option value="1">Подразделение 1</option>
-                <option value="2">Подразделение 2</option>
-                <option value="3">Подразделение 3</option>
-              </select>
-          </p>
+          <div class="departments-field dev">
+            <div class="label-div dev">
+              <label>Подразделение:</label>
+            </div>
+            <div class="all-departments dev">
+              <div class="department dev" v-for="(department_name, department_id) in departments" :key="department_id">
+                <input
+                  type="checkbox"
+                  :id="department_id"
+                  :value="department_id"
+                  v-model="formData.departments"
+                >
+                <label :for="department_id">{{ department_name }}</label>
+              </div>
+            </div>
+          </div>
           <!--Поле выбора должности (пока хардкод)-->
           <p>
             <label for="post">Должность</label>
@@ -106,11 +114,29 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      departments: {
+        0: "Лаборатория непредельных гетероатомных соединений",
+        1: "Лаборатория галогенорганических соединений",
+        2: "Лаборатория элементоорганических соединений",
+        3: "Лаборатория халькогенорганических соединений",
+        4: "Лаборатория функциональных полимеров",
+        5: "Лаборатория функциональных наноматериалов",
+        6: "Лаборатория ядерного магнитного резонанса",
+        7: "Лаборатория фотоактивных соединений",
+        8: "Лаборатория структурных исследований",
+        9: "Лаборатория экологической биотехнологии",
+        10: "Лаборатория плазмохимических технологий в винилировании",
+        11: "Лаборатория устойчивого развития Байкальского региона",
+        12: "Лаборатории правовых исследований высокотехнологических отраслей производства",
+        13: "Лаборатория лингво-педагогических исследований",
+        14: "Центр инженерных разработок",
+        15: "Байкальский аналитический центр коллективного пользования"
+      },
       formData: {
         lastname: '',
         name: '',
         patronymic: '',
-        department: '',
+        departments: [],
         post: '',
         email: '',
         password: '',
@@ -124,13 +150,20 @@ export default {
     },
     isFormValid() {
       return this.formData.password.length > 0 && this.passwordsMatch;
+    },
+    formDataToSend() {
+      return {
+        ...this.formData,
+        departments: this.formData.departments.map(Number)
+      };
     }
   },
   methods: {
     async handleSubmit() {
       console.log('Отправка данных на сервер...');
+      console.log(JSON.stringify(this.formData, null, 2));
       try {
-        const response = await axios.post('http://localhost:8000/api/submit', this.formData);
+        const response = await axios.post('http://localhost:8000/api/submit', this.formDataToSend);
         console.log('Success: ', response.data);
       } catch (error) {
         console.error('Error: ', error)
@@ -143,4 +176,49 @@ export default {
 <style>
 .input-error { border: 1px solid red; }
 .error-text { color: red; font-size: 12px; display: block; }
+.label-div {
+  width: 34%;
+  text-align: center;
+}
+.departments-field {
+  display: flex;
+  flex-direction: row;
+  padding: 3px;
+  margin-right: 3px;
+  width: 34%;
+}
+
+.all-departments {
+  display: flex;
+  width: 66%;
+  flex-direction: column;
+  height: auto;
+  margin-left: 3px;
+  padding: 3px;
+}
+
+.department {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* отступ между чекбоксом и текстом */
+  margin: 2px 0;
+}
+
+.department input[type="checkbox"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.department label {
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dev {
+  border: 2px solid blue;
+  padding: 10px;
+  margin: 5px 0;
+}
 </style>

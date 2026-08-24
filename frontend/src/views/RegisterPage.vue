@@ -150,13 +150,20 @@ export default {
     },
     isFormValid() {
       return this.formData.password.length > 0 && this.passwordsMatch;
+    },
+    formDataToSend() {
+      return {
+        ...this.formData,
+        departments: this.formData.departments.map(Number)
+      };
     }
   },
   methods: {
     async handleSubmit() {
       console.log('Отправка данных на сервер...');
+      console.log(JSON.stringify(this.formData, null, 2));
       try {
-        const response = await axios.post('http://localhost:8000/api/submit', this.formData);
+        const response = await axios.post('http://localhost:8000/api/submit', this.formDataToSend);
         console.log('Success: ', response.data);
       } catch (error) {
         console.error('Error: ', error)

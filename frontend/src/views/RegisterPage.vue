@@ -132,6 +132,10 @@ export default {
         14: "Центр инженерных разработок",
         15: "Байкальский аналитический центр коллективного пользования"
       },
+      formData: {
+        lastname: '',
+        name: '',
+        patronymic: '',
         departments: [],
         post: '',
         email: '',
@@ -218,3 +222,4 @@ export default {
   margin: 5px 0;
 }
 </style>
+

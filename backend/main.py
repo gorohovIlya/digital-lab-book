@@ -7,6 +7,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import json
 from argon2 import PasswordHasher
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+env_path = Path(__file__).parent / '.env'
+load_dotenv(env_path)
 
 app = FastAPI()
 
@@ -14,8 +20,8 @@ ph = PasswordHasher(
     time_cost=3,
     memory_cost=65536,
     parallelism=4,
-    hash_len=64,
-    salt_len=32
+    hash_len=int(os.environ["HASH_LEN"]),      # ← Добавьте int()
+    salt_len=int(os.environ["SALT_LEN"])       # ← Добавьте int()
 )
 
 origins = [

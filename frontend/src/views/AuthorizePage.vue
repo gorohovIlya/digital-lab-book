@@ -44,7 +44,13 @@ export default {
       formData: {
         email: '',
         password: ''
+<<<<<<< Updated upstream
       }
+=======
+      },
+      loading: false,
+      error: null,
+>>>>>>> Stashed changes
     };
   },
   methods: {

@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, HTTPException, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Optional
 from test import cursor, conn
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,18 +11,22 @@ from argon2 import PasswordHasher
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+from datetime import datetime, timedelta
+import jwt
 
 env_path = Path(__file__).parent / '.env'
 load_dotenv(env_path)
 
 app = FastAPI()
+security = HTTPBearer()
+
 
 ph = PasswordHasher(
     time_cost=3,
     memory_cost=65536,
     parallelism=4,
-    hash_len=int(os.environ["HASH_LEN"]),      # ← Добавьте int()
-    salt_len=int(os.environ["SALT_LEN"])       # ← Добавьте int()
+    hash_len=int(os.environ["HASH_LEN"]),
+    salt_len=int(os.environ["SALT_LEN"])
 )
 
 origins = [
@@ -51,6 +56,32 @@ class UserLogin(BaseModel):
     email: str
     password: str
 
+class Responce(BaseModel):
+    access_token: str
+    token_typy: str = "bearer"
+    user_id: int
+
+def create_access_token(data: dict):
+    data_encode=data.copy()
+    expire=datetime.utcnow() + timedelta(minutes=int(os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"]))
+    data_encode.update({"exp": expire})
+    result = jwt.encode(data_encode, os.environ["SECRET_KEY"], os.environ["ALGORITHM"])
+    return result
+
+
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    token = credentials.credentials
+    try:
+        pl = jwt.decode(token, os.environ["SECRET_KEY"], os.environ["ALGORITHM"])
+        user_id = pl.get("sub")
+        if user_id is None:
+            raise HTTPException(status_code=401, details="Invalid token")
+        else:
+            return int(user_id)
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid token")
 
 @app.post('/api/submit')
 async def save_to_bd(user_data: UserRegister):
@@ -75,7 +106,14 @@ async def save_to_bd(user_data: UserRegister):
             cursor.execute(sql, (id, subdivision_id[i]))
             conn.commit()
 
-        return {"status": "success", "message": "Пользователь успешно зарегистрирован"}
+        data = {
+            "sub": str(id),
+            "email": user_data.email
+        }
+
+        access_token=create_access_token(data)
+
+        return {"status": "success", "message": "Пользователь успешно зарегистрирован", "access_token": access_token}
     except Exception as e:
         return {"status": "fail", "error": str(e)}
 
@@ -85,9 +123,24 @@ async def find_user(user_data: UserLogin):
         sql = "SELECT * FROM employees WHERE email=%s"
         cursor.execute(sql, (user_data.email,))
         res = cursor.fetchone()
+        if res is None:
+            raise HTTPException(status_code=404, detail="User not found")
         if ph.verify(res[6], user_data.password):
-            return {"status": "success", "text": f'Hello, {res[1]}'}
+
+            id = res[0]
+            name = res[1]
+
+            data = {
+            "sub": str(id),
+            "email": user_data.email
+            }
+
+            access_token=create_access_token(data)
+
+
+            return {"status": "success", "text": f'Hello, {name}', "access_token": access_token}
         else:
-            return {"status": "fail", "error": "uncorrected password"}
+            raise HTTPException(status_code=404, detail="Uncorrect password")
     except Exception as e:
         return {"status": "fail", "error": str(e)}
+

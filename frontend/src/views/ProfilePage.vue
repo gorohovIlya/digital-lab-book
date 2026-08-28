@@ -28,99 +28,116 @@
 
 <script></script>
 
-<style>
-.profile-page {
+<style lang="scss">
+@use "sass:color";
+$main-color: #ccc;
+$to-main-btn-color: #70a4d4;
+$edit-btn-color:  #84d1d1;
+$logout-btn-color: darkred;
+$header-element-height: 60%;
+$base-width: 96%;
+$lighten-amount: 15%;
+$header-font-size: 22px;
+$base-border-radius: 12px;
+
+@mixin flex-vertical-sp-between ($direction: column, $justify: space-between) {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: $direction;
+  justify-content: $justify;
+}
+
+@mixin flex-center-align ($align: center, $justify: center) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+}
+
+@mixin flex-horizontal-sp-around ($direction: row, $justify: space-around) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+}
+
+.profile-page {
+  @include flex-vertical-sp-between;
   height: 100%;
-  background-color: #ccc;
+  background-color: $main-color;
 }
 .dev {
   border: 2px solid grey;
 }
 
 .center-align {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center-align;
 }
 
 .header {
-  border-radius: 12px;
+  border-radius: $base-border-radius;
   position: fixed;
-  display: flex;
-  flex-direction: row;
   margin-left: 2%;
-  width: 96%;
+  width: $base-width;
   padding: 0.5%;
   height: 80px;
-  justify-content: space-around;
   background-color: azure;
   margin-bottom: 10px;
+  @include flex-horizontal-sp-around;
 }
 .greeting {
   width: 50%;
-  height: 60%;
+  height: $header-element-height;
   margin-top: 0.5%;
   font-weight: bold;
-  font-size: 22px;
+  font-size: $header-font-size;
 }
 .btn {
-  height: 60%;
+  height: $header-element-height;
   margin-top: 0.5%;
   border-radius: 10px;
   font-weight: bold;
-  font-size: 22px;
+  font-size: $header-font-size;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 .to-main {
-  background-color: #70a4d4;
+  background-color: $to-main-btn-color;
   width: 13%;
+  &:hover {
+    background-color: color.adjust($to-main-btn-color, $lightness: $lighten-amount);
+  }
 }
 
 .edit {
-  background-color: #84d1d1;
+  background-color: $edit-btn-color;
   width: 15%;
+  &:hover {
+    background-color: color.adjust($edit-btn-color, $lightness: $lighten-amount);
+  }
 }
 
 .logout {
-  background-color: darkred;
+  background-color: $logout-btn-color;
   color: white;
   width: 10%;
-}
-
-.btn:hover {
-  cursor: pointer;
-}
-
-.to-main:hover {
-  background-color: #aecae6;
-}
-
-.edit:hover {
-  background-color: #aee6e6;
-}
-
-.btn:active {
-  transform: scale(0.98);
-}
-
-.logout:hover {
-  background-color: #ba2929;
+  &:hover {
+    background-color: color.adjust($logout-btn-color, $lightness: $lighten-amount);
+  }
 }
 
 .main {
   margin-left: 2%;
-  width: 96%;
+  width: $base-width;
   padding: 0.5%;
-  height: 500px;
   margin-top: 5%;
-  border-radius: 12px;
+  border-radius: $base-border-radius;
   height: 840px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  @include flex-horizontal-sp-around($justify: space-between);
   background-color: azure;
 }
 
@@ -128,8 +145,7 @@
   width: 33%;
   height: 98.5%;
   border-radius: 12px;
-  display: flex;
-  flex-direction: column;
+  @include flex-vertical-sp-between;
 }
 
 .image-holder {
@@ -142,9 +158,7 @@
   height: 38%;
   margin-left: 5%;
   margin-right: 5%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  @include flex-vertical-sp-between;
 }
 
 .item {
@@ -153,10 +167,8 @@
 
 .experiments-and-departments {
   width: 66.5%;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  border-radius: $base-border-radius;
+  @include flex-vertical-sp-between;
 }
 
 .departments {

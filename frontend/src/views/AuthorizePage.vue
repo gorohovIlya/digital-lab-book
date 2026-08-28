@@ -44,13 +44,9 @@ export default {
       formData: {
         email: '',
         password: ''
-<<<<<<< Updated upstream
-      }
-=======
       },
       loading: false,
       error: null,
->>>>>>> Stashed changes
     };
   },
   methods: {
@@ -59,6 +55,7 @@ export default {
       try {
         const response = await axios.post('http://localhost:8000/api/login', this.formData);
         console.log('Success: ', response.data);
+        // const { access_token, user_id, user_name, user_lastname, user_patronymic, user_email} = response.data;
       } catch (error) {
         console.error('Error: ', error);
       }

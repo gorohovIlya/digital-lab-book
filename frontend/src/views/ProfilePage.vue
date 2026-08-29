@@ -1,10 +1,16 @@
 <template>
   <div class="profile-page">
     <header class="header dev">
-      <div class="to-main btn dev center-align">На главную</div>
+      <div class="to-main btn dev center-align">
+        <router-link to="/" class="black-text not-a-link">На главную</router-link>
+      </div>
       <div class="greeting dev center-align">Приветствие</div>
-      <div class="edit btn dev center-align">Редактировать</div>
-      <div class="logout btn dev center-align">Выйти</div>
+      <div class="edit btn dev center-align">
+        <router-link to="/edit-profile" class="black-text not-a-link">Редактировать</router-link>
+      </div>
+      <div class="logout btn dev center-align">
+        <router-link to="/authorize" class="white-text not-a-link">Выйти</router-link>
+      </div>
     </header>
     <main class="main dev">
       <section class="personal-info-and-image dev">

@@ -28,149 +28,165 @@
 
 <script></script>
 
-<style>
+<style lang="scss" scoped>
+@use "sass:color";
+
+// --- ПЕРЕМЕННЫЕ ---
+$main-color: #ccc;
+$to-main-btn-color: #70a4d4;
+$edit-btn-color:  #84d1d1;
+$logout-btn-color: darkred;
+$header-element-height: 60%;
+$base-width: 96%;
+$lighten-amount: 15%;
+$header-font-size: 22px;
+$base-border-radius: 12px;
+
+// --- УНИВЕРСАЛЬНЫЙ МИКСИН ---
+@mixin flex($direction: row, $justify: center, $align: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+// --- СТИЛИ СТРАНИЦЫ ---
 .profile-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  @include flex(column, space-between, stretch);
   height: 100%;
-  background-color: #ccc;
-}
-.dev {
-  border: 2px solid grey;
-}
+  background-color: $main-color;
 
-.center-align {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  // Служебный класс для разработки
+  .dev {
+    border: 2px solid grey;
+  }
 
-.header {
-  border-radius: 12px;
-  position: fixed;
-  display: flex;
-  flex-direction: row;
-  margin-left: 2%;
-  width: 96%;
-  padding: 0.5%;
-  height: 80px;
-  justify-content: space-around;
-  background-color: azure;
-  margin-bottom: 10px;
-}
-.greeting {
-  width: 50%;
-  height: 60%;
-  margin-top: 0.5%;
-  font-weight: bold;
-  font-size: 22px;
-}
-.btn {
-  height: 60%;
-  margin-top: 0.5%;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 22px;
-}
+  // Общий вспомогательный класс
+  .center-align {
+    @include flex;
+  }
 
-.to-main {
-  background-color: #70a4d4;
-  width: 13%;
-}
+  // Шапка сайта
+  .header {
+    @include flex(row, space-around, center);
+    position: fixed;
+    top: 0;
+    left: 2%;
+    width: $base-width;
+    height: 80px;
+    padding: 0.5%;
+    margin-bottom: 10px;
+    border-radius: $base-border-radius;
+    background-color: azure;
+    z-index: 10;
+  }
 
-.edit {
-  background-color: #84d1d1;
-  width: 15%;
-}
+  .greeting {
+    width: 50%;
+    height: $header-element-height;
+    margin-top: 0.5%;
+    font-weight: bold;
+    font-size: $header-font-size;
+  }
 
-.logout {
-  background-color: darkred;
-  color: white;
-  width: 10%;
-}
+  // Блок кнопок (все кнопки в одном месте)
+  .btn {
+    height: $header-element-height;
+    margin-top: 0.5%;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: $header-font-size;
+    transition: background-color 0.2s ease, transform 0.1s ease; // Плавность анимации
 
-.btn:hover {
-  cursor: pointer;
-}
+    &:hover {
+      cursor: pointer;
+    }
 
-.to-main:hover {
-  background-color: #aecae6;
-}
+    &:active {
+      transform: scale(0.95);
+    }
 
-.edit:hover {
-  background-color: #aee6e6;
-}
+    // Модификаторы кнопок
+    &.to-main {
+      background-color: $to-main-btn-color;
+      width: 13%;
+      &:hover {
+        background-color: color.adjust($to-main-btn-color, $lightness: $lighten-amount);
+      }
+    }
 
-.btn:active {
-  transform: scale(0.98);
-}
+    &.edit {
+      background-color: $edit-btn-color;
+      width: 15%;
+      &:hover {
+        background-color: color.adjust($edit-btn-color, $lightness: $lighten-amount);
+      }
+    }
 
-.logout:hover {
-  background-color: #ba2929;
-}
+    &.logout {
+      background-color: $logout-btn-color;
+      color: white;
+      width: 10%;
+      &:hover {
+        background-color: color.adjust($logout-btn-color, $lightness: $lighten-amount);
+      }
+    }
+  }
 
-.main {
-  margin-left: 2%;
-  width: 96%;
-  padding: 0.5%;
-  height: 500px;
-  margin-top: 5%;
-  border-radius: 12px;
-  height: 840px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: azure;
-}
+  // Главный контент
+  .main {
+    @include flex(row, space-between, stretch);
+    width: $base-width;
+    height: 840px;
+    margin-left: 2%;
+    margin-top: 90px; // Отступ сверху, чтобы контент не залезал под fixed-шапку
+    padding: 0.5%;
+    border-radius: $base-border-radius;
+    background-color: azure;
+  }
 
-.personal-info-and-image {
-  width: 33%;
-  height: 98.5%;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-}
+  // Левая колонка (Инфо и Аватар)
+  .personal-info-and-image {
+    @include flex(column, space-between, stretch);
+    width: 33%;
+    height: 98.5%;
+    border-radius: 12px;
 
-.image-holder {
-  height: 60%;
-  margin-left: 5%;
-  margin-right: 5%;
-}
+    .image-holder {
+      height: 60%;
+      margin: 0 5%;
+    }
 
-.personal-info {
-  height: 38%;
-  margin-left: 5%;
-  margin-right: 5%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+    .personal-info {
+      @include flex(column, space-between, stretch);
+      height: 38%;
+      margin: 0 5%;
 
-.item {
-  height: 20%;
-}
+      .item {
+        height: 20%;
+      }
+    }
+  }
 
-.experiments-and-departments {
-  width: 66.5%;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+  // Правая колонка (Списки и управление)
+  .experiments-and-departments {
+    @include flex(column, space-between, stretch);
+    width: 66.5%;
+    border-radius: $base-border-radius;
 
-.departments {
-  height: 33%;
-}
+    .departments {
+      height: 33%;
+    }
 
-.experiments {
-  height: 53%;
-}
+    .experiments {
+      height: 53%;
+    }
 
-.control-panel {
-  height: 6%;
-  width: 35%;
-  margin-left: 65%;
+    .control-panel {
+      width: 35%;
+      height: 6%;
+      margin-left: 65%;
+    }
+  }
 }
-
 </style>

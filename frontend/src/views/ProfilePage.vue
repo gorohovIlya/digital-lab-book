@@ -133,6 +133,19 @@ $base-border-radius: 12px;
     }
   }
 
+  // Классы надписей на кнопках
+  .not-a-link {
+    text-decoration: none;
+  }
+
+  .black-text {
+    color: black;
+  }
+
+  .white-text {
+    color: white;
+  }
+
   // Главный контент
   .main {
     @include flex(row, space-between, stretch);

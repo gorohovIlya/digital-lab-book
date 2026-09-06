@@ -4,6 +4,7 @@ import Edit from '../views/EditPage.vue'
 import Authorize from '../views/AuthorizePage.vue'
 import Register from '../views/RegisterPage.vue'
 import Profile from '../views/ProfilePage.vue'
+import EditProfile from '../views/EditProfilePage.vue'
 
 const routes = [
   {
@@ -13,22 +14,27 @@ const routes = [
   },
   {
     path: '/edit',
-    name: 'Edit',
+    name: 'EditPage',
     component: Edit
   },
   {
+    path: '/edit-profile',
+    name: 'EditProfilePage',
+    component: EditProfile
+  },
+  {
     path: '/authorize',
-    name: 'Authorize',
+    name: 'AuthorizePage',
     component: Authorize
   },
   {
     path: '/register',
-    name: 'Register',
+    name: 'RegisterPage',
     component: Register
   },
   {
     path: '/profile',
-    name: 'Profile',
+    name: 'ProfilePage',
     component: Profile
   }
 ]

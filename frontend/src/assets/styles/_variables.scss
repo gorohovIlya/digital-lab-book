@@ -1,0 +1,16 @@
+$main-color: #ccc;
+$to-main-btn-color: #70a4d4;
+$edit-btn-color:  #84d1d1;
+$logout-btn-color: darkred;
+$header-element-height: 60%;
+$base-width: 96%;
+$lighten-amount: 15%;
+$header-font-size: 22px;
+$base-border-radius: 12px;
+
+@mixin flex($direction: row, $justify: center, $align: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}

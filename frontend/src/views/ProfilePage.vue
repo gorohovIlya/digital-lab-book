@@ -23,15 +23,19 @@
         </div>
       </section>
       <div class="experiments-and-departments dev">
-        <div class="departments dev">Мои подразделения</div>
+        <label>Мои подразделения</label>
+        <div class="departments dev"></div>
         <div class="control-panel dev">Панель управления (переключение страниц + добавить новое)</div>
-        <div class="experiments dev">Мои эксперименты</div>
+        <label>Мои эксперименты</label>
+        <div class="experiments dev"></div>
         <div class="control-panel dev">Панель управления (переключение страниц + добавить новое)</div>
       </div>
     </main>
   </div>
 </template>
 
-<script></script>
+<script>
+
+</script>
 
 <style lang="scss" src="./ProfilePage.scss" scoped></style>

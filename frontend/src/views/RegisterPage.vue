@@ -60,9 +60,9 @@
           <p>
             <label for="post">Должность</label>
               <select name="post" id="post" v-model="formData.post">
-                <option value="Должность_1">Должность 1</option>
-                <option value="Должность_2">Должность 2</option>
-                <option value="Должность_3">Должность 3</option>
+                <option value="1">Должность 1</option>
+                <option value="2">Должность 2</option>
+                <option value="3">Должность 3</option>
               </select>
           </p>
           <!--Поле ввода E-mail:-->
